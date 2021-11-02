@@ -1,9 +1,8 @@
-# Crashsymbol
-iOS crash文件解析 项目符号不显示解决方案
-
+###[我的博客](https://www.jianshu.com/u/73c02e24f1fd)
 
 ###背景
 线上app崩溃后，拿到的crash文件只有地址和偏移地址，需要将crash文件或者ips文件符号化，才能定位出具体crash的位置。
+[脚本文件](https://github.com/xy2jianjia/Crashsymbol)
 
 ####一、清单1【由测试组提供】
 1、`.crash`或者`.ips文件`【必须】
@@ -80,3 +79,24 @@ sh crash_address.sh 5.0 0x102e58000 0x00000001036113dc
 参考链接：
 [1、对Crash文件,dSYM文件进行符号化](https://www.jianshu.com/p/272d9dd1f8ca)
 [2、iOS中符号的那些事儿](http://www.zyiz.net/tech/detail-136520.html)
+
+----------------------------更新xcode13新版本的crash日志-----------------------------------------
+[新日志符号化脚本文件](https://github.com/xy2jianjia/Crashsymbol/blob/main/crash_symbol_13.sh)
+###新版本的crash日志
+拿到的xcode13的crash日志，与之前的日志有所不同。如图所示：![](https://upload-images.jianshu.io/upload_images/4096235-9574bdf266369635.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+杂乱无章，全选copy，json格式化后，如图所示![](https://upload-images.jianshu.io/upload_images/4096235-6f385a3eb6e06f07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+红框的地方就是我们app闪退的位置。
+操作步骤如下：
+####1、与之前一样，将crash文件、dSYM文件、脚本文件放在同一个文件夹temp里
+####2、终端cd进入temp文件夹
+####3、执行脚本文件 
+```
+sh crash_symbol_13.sh ***.dSYM文件绝对路径 输出绝对路径 crash文件
+```
+例如：
+```
+sh crash_symbol_13.sh /Users/admin/Desktop/temp/dSYMs/wechat.app.dSYM /Users/admin/Desktop/temp  /Users/admin/Desktop/temp/crash.crash
+```
+####4、temp目录下，找到`CrashLog.crash`，打开，即可看到之前的`"imageOffset": 507376`等已符号化。
+![](https://upload-images.jianshu.io/upload_images/4096235-2f8e0aeac57847bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+####5、符号化结束
